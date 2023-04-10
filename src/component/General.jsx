@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useRef } from "react";
 import "./General.css"
 
-const General =()=>{
+const General =(props)=>{
   const [genInfo, setGenInfo] = useState
   ({firstName:"Name", lastName:"Surname", title: "role", infoText:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione tenetur ipsam, reiciendis provident earum recusandae quibusdam voluptatem accusantium!"})
 
@@ -19,7 +19,7 @@ const General =()=>{
     if(edit===false) setEdit(true)
     if(edit===true) setEdit(false)
   }
-  const confirmHandler =()=>{
+  const saveHandler =()=>{
     const newInfo={
       firstName:firstNmRef.current.value,
       lastName:lastNmRef.current.value,
@@ -40,7 +40,7 @@ const General =()=>{
       <input ref={lastNmRef} type="text" placeholder={lastName}></input>
       <input ref={titleRef} type="text" placeholder={title}></input>
       <textarea ref={infoRef} placeholder={infoText}></textarea>
-      <button onClick={()=>{editToggle(),confirmHandler()}}>Confirm</button>
+      <button onClick={()=>{editToggle(), saveHandler()}}>Save</button>
     </div>
     )
   }

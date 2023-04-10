@@ -1,13 +1,18 @@
-import { useState } from 'react'
-import General from './component/General.jsx'
 import './App.css'
 
+
+
+import General from './component/General.jsx'
+import Experience from './component/Experience'
+
+
 function App() {
-  
+
 
   return (
     <>
-      <General />
+      <General  />
+      <Experience />
     </>
     
     
