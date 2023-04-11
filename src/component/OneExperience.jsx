@@ -28,14 +28,39 @@ const OneExperience = (props) => {
     for (const [key, value] of Object.entries(newInfo)) {
       if (value === "") newInfo[key] = props.oneExperience[key];
     }
+
     let experienceCopy = [...props.experience];
-    experienceCopy[id] = newInfo;
-    props.setExperience(experienceCopy);
+
+    const updatedExperience = experienceCopy.map(oneExp => oneExp.id===newInfo.id?{...newInfo}:oneExp)
+    props.setExperience(updatedExperience);
   };
 
   const { id, company, position, from, till, desc } = props.oneExperience;
 
+
+
   if (edit) {
+    return(
+      <div id="experience-edit experience">
+      <input ref={companyRef} type="text" defaultValue={company}></input>
+      <input ref={positionRef} type="text" defaultValue={"cauky "}></input>
+      <input ref={fromRef} type="text" defaultValue={from}></input>
+      <input ref={tillRef} type="text" defaultValue={till}></input>
+      <textarea ref={descRef} defaultValue={desc}></textarea>
+      <button
+        onClick={() => {
+          editToggle(), saveHandler(id);
+        }}
+      >
+        SAVE
+      </button>
+    </div>
+
+
+    )
+  }
+
+  else if (props.newExp) {
     return (
       <div id="experience-edit experience">
         <input ref={companyRef} type="text" placeholder={company}></input>
@@ -45,7 +70,7 @@ const OneExperience = (props) => {
         <textarea ref={descRef} placeholder={desc}></textarea>
         <button
           onClick={() => {
-            editToggle(), saveHandler(id);
+             saveHandler(id);
           }}
         >
           SAVE
@@ -53,6 +78,7 @@ const OneExperience = (props) => {
       </div>
     );
   }
+  
   return (
     <div>
       <li key={id}>
