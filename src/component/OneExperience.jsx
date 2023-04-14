@@ -8,6 +8,7 @@ const OneExperience = (props) => {
   const descRef = useRef();
 
   const [edit, setEdit] = useState(false);
+  const [newExp, setNewExp] = useState(true)
 
   //toggles between edit and overview mode
   const editToggle = () => {
@@ -33,17 +34,28 @@ const OneExperience = (props) => {
 
     const updatedExperience = experienceCopy.map(oneExp => oneExp.id===newInfo.id?{...newInfo}:oneExp)
     props.setExperience(updatedExperience);
+    setNewExp(false)
+
   };
+
+  const deleteHandler = (delete_id) => {
+    let experienceCopy = [...props.experience];
+
+    const filteredExperience = experienceCopy.filter(oneExp => oneExp.id!==delete_id)
+    props.setExperience(filteredExperience);
+
+  }
 
   const { id, company, position, from, till, desc } = props.oneExperience;
 
 
-
+  
+//edit existing exp
   if (edit) {
     return(
       <div id="experience-edit experience">
       <input ref={companyRef} type="text" defaultValue={company}></input>
-      <input ref={positionRef} type="text" defaultValue={"cauky "}></input>
+      <input ref={positionRef} type="text" defaultValue={position}></input>
       <input ref={fromRef} type="text" defaultValue={from}></input>
       <input ref={tillRef} type="text" defaultValue={till}></input>
       <textarea ref={descRef} defaultValue={desc}></textarea>
@@ -59,8 +71,8 @@ const OneExperience = (props) => {
 
     )
   }
-
-  else if (props.newExp) {
+  //fill in new exp
+  else if (newExp) {
     return (
       <div id="experience-edit experience">
         <input ref={companyRef} type="text" placeholder={company}></input>
@@ -79,16 +91,18 @@ const OneExperience = (props) => {
     );
   }
   
-  return (
+  else { return (
     <div>
       <li key={id}>
         {company} {position} {from}-{till} {desc}
       </li>
 
       <button onClick={editToggle}>EDIT</button>
-      <button>Delete</button>
+      <button onClick={()=>deleteHandler(id)}>Delete</button>
     </div>
-  );
+  )
+  };
+  
 };
 
 export default OneExperience;
