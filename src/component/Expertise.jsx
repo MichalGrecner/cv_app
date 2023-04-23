@@ -2,61 +2,44 @@ import React, { useState, useEffect, useRef } from "react";
 //import "./Education.css";
 
 const Expertise = () => {
-  const [skills, setSkills] = useState(["skill 1", "skill 2", "skill 3"]);
-  const [skillLenAux, setSkillLenAux] = useState(false)
-  const [showSkills, setShowSkills] = useState(false)
+  const [skills, setSkills] = useState([]);
+
+  const [showSkills, setShowSkills] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [newSkill, setNewSkill] = useState(false)
-
-  const editToggle = () => {
-    if (edit === false) setEdit(true);
-    if (edit === true) setEdit(false);
-  };
-  
-
-  const addNewSkill = () => {
-
-    const skillInput = useRef()
-    setShowSkills(false)
-    setEdit(true)
-    
-  };
 
   const saveHandler = (e) => {
     e.preventDefault();
-   
-    let skillsArray=[]
-    for (let i =0; i < e.target.length-1;i++){
-      
-      skillsArray.push(e.target[i].value)
+    let skillsArray = [];
+    for (let i = 0; i < e.target.length - 1; i++) {
+      if (e.target[i].value !== "") skillsArray.push(e.target[i].value);
     }
-    setSkills(skillsArray)
-    setShowSkills(true)
+    setSkills(skillsArray);
+    setShowSkills(true);
+  };
 
-
-
-  }
-
-  //toggles <h>Education<h> based on experience presence
-  useEffect(() => {
-    if (skills.length === 0 && !setSkillLenAux) {
-      //setShowEdu(false);
-      setSkillLenAux(true);
-    }
-    if (skills.length >= 1) setSkillLenAux(false);
-  });
+  const deleteHandler = (index) => {
+    let skillsArray = [...skills];
+    skillsArray.splice(index, 1);
+    setSkills(skillsArray);
+    setShowSkills(true);
+  };
 
   if (showSkills) {
     return (
       <>
-        <h1>Expertise</h1>
+        {skills.length > 0 ? <h1>Expertise</h1> : <></>}
         {skills.map((oneSkill, index) => {
-          return (
-            <li key={index}>{oneSkill}</li>
-          );
+          return <li key={index}>{oneSkill}</li>;
         })}
         <br></br>
-        <button onClick={()=>{setEdit(true); setShowSkills(false)}}>EDIT</button>
+        <button
+          onClick={() => {
+            setEdit(true);
+            setShowSkills(false);
+          }}
+        >
+          {skills.length > 0 ? "add / edit skills" : "add new skill"}
+        </button>
       </>
     );
   }
@@ -66,27 +49,32 @@ const Expertise = () => {
       <>
         <h1>Expertise</h1>
         <form onSubmit={saveHandler}>
-        {skills.map((oneSkill, index) => {
-          return (
-            <input key={index} type="text" defaultValue={oneSkill} />
-          );
-        })}
-        {newSkill? (
-          <input type="text" placeholder="example" />
-        ): <br></br> }
-        <button type = "submit">SAVE</button>
+          {skills?.map((oneSkill, index) => {
+            return (
+              <>
+                <input key={index} type="text" defaultValue={oneSkill} />
+                <button onClick={() => deleteHandler(index)}>X</button>
+                <br></br>
+              </>
+            );
+          })}
+          <input type="text" placeholder="add skill" />
+          <br></br>
+          <button type="submit">SAVE</button>
         </form>
-        <br></br>
-        <button onClick={ () => {if(skills.length ===0){addNewSkill()}; setNewSkill(true)}}>add new skill</button>
-        
-
       </>
     );
   }
 
   return (
     <>
-      <button onClick={() => {setEdit(true); }}>add new skill</button>
+      <button
+        onClick={() => {
+          setEdit(true);
+        }}
+      >
+        add skills
+      </button>
     </>
   );
 };
