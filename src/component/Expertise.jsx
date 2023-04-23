@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-//import "./Education.css";
+import React, { useState } from "react";
+
 
 const Expertise = () => {
   const [skills, setSkills] = useState([]);
@@ -51,11 +51,10 @@ const Expertise = () => {
         <form onSubmit={saveHandler}>
           {skills?.map((oneSkill, index) => {
             return (
-              <>
-                <input key={index} type="text" defaultValue={oneSkill} />
-                <button onClick={() => deleteHandler(index)}>X</button>
-                <br></br>
-              </>
+              <div key={index}>
+                <input  type="text" defaultValue={oneSkill} />
+                <button  onClick={() => deleteHandler(index)}>X</button>
+              </div>
             );
           })}
           <input type="text" placeholder="add skill" />
